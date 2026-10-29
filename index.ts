@@ -4,7 +4,11 @@ import { ApplicationCommandInputType } from "@api/Commands";
 
 const notificationTitle = "HypeSquad Badge";
 
-async function setBadge(num: number): Promise<boolean> {
+/**
+ * Sets the HypeSquad badge for the user.
+ * @param num 0 - Remove badge, 1 - Bravery, 2 - Brilliance, 3 - Balance
+ */
+async function setBadge(num: 0 | 1 | 2 | 3): Promise<boolean> {
     // @ts-ignore
     const webpackRequire = webpackChunkdiscord_app.push([
         [Symbol()],
@@ -32,9 +36,10 @@ async function setBadge(num: number): Promise<boolean> {
         }
     }
 
-    const api = findObjectFromKey(findByCode('.set("X-Audit-Log-Reason",'), "patch",);
+    const api = findObjectFromKey(findByCode('.set("X-Audit-Log-Reason",'), "patch");
 
-    const res = await api.post({ url: "/hypesquad/online", body: { house_id: num } });
+    const res = (num === 0) ? await api.del({ url: "/hypesquad/online" }) :
+        await api.post({ url: "/hypesquad/online", body: { house_id: num } });
 
     return res.ok;
 }
@@ -60,6 +65,7 @@ export default definePlugin({
                         { name: "Bravery", value: "bravery", label: "Bravery House" },
                         { name: "Brilliance", value: "brilliance", label: "Brilliance House" },
                         { name: "Balance", value: "balance", label: "Balance House" },
+                        { name: "Remove HypeSquad", value: "remove", label: "Remove HypeSquad Badge" }
                     ]
                 }
             ],
@@ -88,6 +94,11 @@ export default definePlugin({
                         res = await setBadge(3)
                         break;
 
+                    /** REMOVE BADGE */
+                    case "remove":
+                        res = await setBadge(0)
+                        break;
+
                     /** INVALID HOUSE */
                     default:
                         void showNotification({
@@ -99,7 +110,11 @@ export default definePlugin({
 
                 if (res) {
                     const name = `${selected?.charAt(0).toUpperCase()}${selected?.slice(1)}`;
-                    void showNotification({
+                    if (selected === "remove") void showNotification({
+                        title: notificationTitle,
+                        body: "Removed HypeSquad badge.",
+                    })
+                    else void showNotification({
                         title: notificationTitle,
                         body: `Given ${name} HypeSquad badge.`,
                     })
