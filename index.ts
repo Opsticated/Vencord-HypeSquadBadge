@@ -2,6 +2,9 @@ import definePlugin from "@utils/types";
 import { showNotification } from "@api/Notifications";
 import { ApplicationCommandInputType } from "@api/Commands";
 
+import Settings from "./settings";
+import { checkForUpdates } from "./updateChecker";
+
 const notificationTitle = "HypeSquad Badge";
 
 /**
@@ -49,6 +52,13 @@ export default definePlugin({
     description: "Adds a slash command that let's the user set the HypeSquad badge since that's no longer possible via user settings." +
         " Use it by typing /hypesquad and selecting one of the houses.",
     authors: [{ name: "David2379", id: 681245724691660828n }],
+    settings: Settings,
+
+    start() {
+        if (Settings.store.checkForUpdates) {
+            checkForUpdates(notificationTitle);
+        }
+    },
 
     commands: [
         {

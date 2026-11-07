@@ -6,6 +6,14 @@ Adds a slash command to change your Discord HypeSquad badge, since this option i
 
 **This plugin is for testing purposes only. Its behavior goes against Discord's Terms of Service, so it should not be used in the official Discord app.**
 
+## Settings
+
+| Setting | Description | Default |
+| --- | --- | --- |
+| `checkForUpdates` | Check for updates to the plugin on startup. | Enabled |
+
+- It is recommended to keep the `checkForUpdates` option enabled.
+
 ## Installation
 
 This is a custom plugin for a Vencord build from source.
