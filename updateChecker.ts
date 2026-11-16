@@ -3,11 +3,14 @@ import { Logger } from "@utils/Logger";
 
 /** EDIT **/
 const CURRENT_VERSION = "1.2.0";
-const GITHUB_AUTHOR = "Opsticated";
-const GITHUB_REPO = "Vencord-HypeSquadBadge";
 /** **** **/
 
+/** DO NOT EDIT **/
+const GITHUB_AUTHOR = "Opsticated";
+const GITHUB_REPO = "Vencord-HypeSquadBadge";
+
 const GITHUB_API = `https://api.github.com/repos/${GITHUB_AUTHOR}/${GITHUB_REPO}/tags?per_page=1`;
+/** **** **/
 
 function isNewerVersion(latest: string, current: string) {
     const a = latest.split(".").map(Number);
@@ -25,7 +28,7 @@ function isNewerVersion(latest: string, current: string) {
 }
 
 export async function checkForUpdates(spacedPluginName: string) {
-    const logger = new Logger(spacedPluginName.replaceAll(" ", "").toLowerCase());
+    const logger = new Logger(spacedPluginName.replaceAll(" ", ""));
 
     try {
         const response = await fetch(GITHUB_API, {
